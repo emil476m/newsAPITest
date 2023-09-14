@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using service;
 using infrastructure.DataModels;
@@ -13,45 +14,47 @@ public class NewsController : ControllerBase
     {
         _service = service;
     }
+    
+    [HttpGet]
+    [Route("/api/feed")]
+    public IEnumerable<NewsFeedItem> GetArticleFeed()
+    {
+        return _service.GetArticleFeed();
+    }
+    
+    [HttpGet]
+    [Route("/api/articles")]
+    public IEnumerable<Article> GetArticles([FromQuery] [MinLength(3)] string searchTerm, [FromQuery]int pageSize)
+    {
+        return _service.SearchArticle(searchTerm, pageSize);
+    }
 
     [HttpPost]
     [Route("/api/articles")]
-    public Article PostArticle()
+    public Article PostArticle([FromBody]Article article)
     {
-        throw new NotImplementedException();
+        return _service.CreateArticle(article.Headline, article.Body, article.Author, article.ArticleImgUrl);
     }
-    
-    
-    
-    
     
     [HttpGet]
-    [Route("/api/books")]
-    public IEnumerable<Book> GetBooks()
+    [Route("/api/articles/{articleId}")]
+    public Article GetArticle([FromRoute] int articleId)
     {
-        return _service.GetAllBooks();
+        return _service.GetArticle(articleId);
     }
-
-    [HttpPost]
-    [Route("/api/book")]
-    public Book PostBook([FromBody]Book book)
-    {
-        throw new NotImplementedException();
-    }
-
+    
     [HttpPut]
-    [Route("/api/book/{bookId}")]
-    public Book UpdateBook([FromBody] Book book, [FromRoute] int bookId)
+    [Route("/api/articles/{articleId}")]
+    public Article PutSpecificArticle([FromBody]Article article)
     {
-        throw new NotImplementedException();
+        return _service.UpdateArticle(article.ArticleId, article.Headline, article.Body, article.Author, article.ArticleImgUrl);
     }
-
+    
     [HttpDelete]
-    [Route("/api/book/{bookId}")]
-    public object DeleteBook([FromRoute] int bookId)
+    [Route("/api/articles/{articleId}")]
+    public object DeleteArticle([FromRoute] int articleId)
     {
-        throw new NotImplementedException();
+        return _service.DeleteArticle(articleId);
     }
-
-
+    
 }

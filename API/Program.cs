@@ -1,23 +1,25 @@
+//using infrastructure;
+
 using infrastructure;
 using service;
 
 var builder = WebApplication.CreateBuilder(args);
-//builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString,
-   // dataSourceBuilder => dataSourceBuilder.EnableParameterLogging());
+builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString,
+   dataSourceBuilder => dataSourceBuilder.EnableParameterLogging());
 builder.Services.AddSingleton<Repository>();
 builder.Services.AddSingleton<Service>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 
 {
 
-    //app.UseSwagger();
+    app.UseSwagger();
 
-    //app.UseSwaggerUI();
+    app.UseSwaggerUI();
 
 }
 
