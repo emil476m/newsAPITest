@@ -33,7 +33,13 @@ jobs:
         run: git clone https://github.com/emil476m/newsAPITest
 
       # Runs API and then shuts it down
-      - name: Run, test and shutdown
+      - name: Run API test step 1
         run: cd API && dotnet run & (sleep 30  ) && kill -9 $(lsof -t -i:5000)
+        env: 
+         pgconn: ${{secrets.PGCONN}}
+
+          # Runs API and then shuts it down
+      - name: Run API test step 2
+        run: cd API && dotnet run & (sleep 30 && cd NewsAPItests && dotnet test) && kill -9 $(lsof -t -i:5000)
         env: 
          pgconn: ${{secrets.PGCONN}}
