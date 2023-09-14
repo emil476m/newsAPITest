@@ -30,7 +30,7 @@ jobs:
 
       # clones reposetory
       - name: Get tests
-        run: git clone https://github.com/uldahlalex/newsapitests
+        run: git clone https://github.com/emil476m/newsAPITest
 
       # Runs API and then shuts it down
       - name: Run, test and shutdown
