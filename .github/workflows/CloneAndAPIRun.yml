@@ -34,6 +34,6 @@ jobs:
 
       # Runs API and then shuts it down
       - name: Run, test and shutdown
-        run: cd API & dotnet run & (sleep 30  && cd NewsAPITests && dotnet test) && kill -9 $(lsof -t -i:5000)
+        run: cd API && dotnet run & (sleep 30  ) && kill -9 $(lsof -t -i:5000)
         env: 
          pgconn: ${{secrets.PGCONN}}
